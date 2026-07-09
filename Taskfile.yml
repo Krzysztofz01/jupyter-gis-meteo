@@ -1,0 +1,34 @@
+version: '3'
+
+vars:
+  # NOTE: Adjust according to the local environment [docker, podman].
+  CONTAINER_TOOL: "podman"
+  IMAGE_VERSION:
+    sh: date +%F
+
+tasks:
+  build:pytorch:
+    desc: Build the Pytorch based jupyter-torch-gis-meteo image.
+    vars:
+      # NOTE: Adjust according to the needs. The latest tag is used by default.
+      BASE_IMAGE_TAG: "latest"
+      IMAGE_NAME: "jupyter-pytorch-gis-meteo"
+      DOCKERFILE_PATH: "images/pytorch-gis-meteo/Dockerfile"
+      IMAGE_SPECIFIC_VERSION_TAG: "{{.IMAGE_NAME}}:{{.IMAGE_VERSION}}"
+      IMAGE_LATEST_VERSION_TAG: "{{.IMAGE_NAME}}:latest"
+    cmds:
+      - cmd: "{{.CONTAINER_TOOL}} build --tag {{.IMAGE_SPECIFIC_VERSION_TAG}} --build-arg BASE_IMAGE_TAG={{.BASE_IMAGE_TAG}} -f {{.DOCKERFILE_PATH}} ."
+      - cmd: "{{.CONTAINER_TOOL}} tag {{.IMAGE_SPECIFIC_VERSION_TAG}} {{.IMAGE_LATEST_VERSION_TAG}}"
+
+  build:tensorflow:
+    desc: Build the Tensorflow based jupyter-torch-gis-meteo image.
+    vars:
+      # NOTE: Adjust according to the needs. The latest tag is used by default.
+      BASE_IMAGE_TAG: "latest"
+      IMAGE_NAME: "jupyter-tensorflow-gis-meteo"
+      DOCKERFILE_PATH: "images/tensorflow-gis-meteo/Dockerfile"
+      IMAGE_SPECIFIC_VERSION_TAG: "{{.IMAGE_NAME}}:{{.IMAGE_VERSION}}"
+      IMAGE_LATEST_VERSION_TAG: "{{.IMAGE_NAME}}:latest"
+    cmds:
+      - cmd: "{{.CONTAINER_TOOL}} build --tag {{.IMAGE_SPECIFIC_VERSION_TAG}} --build-arg BASE_IMAGE_TAG={{.BASE_IMAGE_TAG}} -f {{.DOCKERFILE_PATH}} tensorflow-gis-meteo/Dockerfile ."
+      - cmd: "{{.CONTAINER_TOOL}} tag {{.IMAGE_SPECIFIC_VERSION_TAG}} {{.IMAGE_LATEST_VERSION_TAG}}"

@@ -30,5 +30,5 @@ tasks:
       IMAGE_SPECIFIC_VERSION_TAG: "{{.IMAGE_NAME}}:{{.IMAGE_VERSION}}"
       IMAGE_LATEST_VERSION_TAG: "{{.IMAGE_NAME}}:latest"
     cmds:
-      - cmd: "{{.CONTAINER_TOOL}} build --tag {{.IMAGE_SPECIFIC_VERSION_TAG}} --build-arg BASE_IMAGE_TAG={{.BASE_IMAGE_TAG}} -f {{.DOCKERFILE_PATH}} tensorflow-gis-meteo/Dockerfile ."
+      - cmd: "{{.CONTAINER_TOOL}} build --tag {{.IMAGE_SPECIFIC_VERSION_TAG}} --build-arg BASE_IMAGE_TAG={{.BASE_IMAGE_TAG}} -f {{.DOCKERFILE_PATH}} ."
       - cmd: "{{.CONTAINER_TOOL}} tag {{.IMAGE_SPECIFIC_VERSION_TAG}} {{.IMAGE_LATEST_VERSION_TAG}}"
